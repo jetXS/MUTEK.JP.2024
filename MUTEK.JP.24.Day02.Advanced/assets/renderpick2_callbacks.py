@@ -31,13 +31,15 @@ def onEvents(renderPickDat, events, eventsPrev):
 
 	for event, eventPrev in zip(events, eventsPrev):
 		#insert code for event, eventsPrev here
-		if event.selectStart:
+		if event.selectStart and event.pickOp:
 			parentCOMP = event.pickOp.parent()
 			
-			if parentCOMP.OPType == 'geometryCOMP' and parentCOMP != op('cubes'):
+			if parentCOMP.OPType == 'geometryCOMP':
 				myMat = parentCOMP.par.material.eval()
-				baseColor = myMat.parGroup.basecolor # parGroup
-				baseColor.val = (random.random(), random.random(), random.random())
+
+				if myMat and myMat.OPType == 'pbrMAT':
+					baseColor = myMat.parGroup.basecolor # parGroup
+					baseColor.val = (random.random(), random.random(), random.random())
 		
 	return
 
